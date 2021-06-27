@@ -1,0 +1,12 @@
+-- Remove Duplicates using CTE
+
+WITH CTE as  
+(  
+   SELECT*, ROW_NUMBER() over (PARTITION BY [SKU],[Site],[Region] ORDER BY SKU) as RowNumber  
+   FROM T
+)  
+DELETE FROM CTE WHERE RowNumber>1    
+
+-- Validate by selecting * from the Table T
+
+SELECT * FROM T

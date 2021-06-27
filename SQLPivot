@@ -1,0 +1,15 @@
+-- As per the question Which says do no use any in-built functions. Hence, I am using a Pivot operator to achieve the result.
+
+-- Query 
+
+SELECT Product,Q1, Q2, Q3, Q4
+FROM
+(
+SELECT Product,[Sales], [Quarter]
+FROM E
+) F
+PIVOT
+(
+SUM([Sales])
+FOR [Quarter] in (Q1, Q2, Q3, Q4)
+) piv;

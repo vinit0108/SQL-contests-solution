@@ -1,0 +1,15 @@
+a. Add a new column MRP_Part_Flag in Table C 
+
+Query - ALTER TABLE C ADD MRP_Part_Flag VARCHAR(1);
+
+b. Populate MRP_Part_Flag with following logic (If MRP_Flag is ‘Y’ for a Part and Site combination then ‘Y’ else flag as ‘N’)
+
+Query - UPDATE C SET MRP_Part_Flag = IF("Y" = ANY (SELECT MRP_Flag FROM D WHERE Part=C.Part AND Site=C.Site), "Y", "N");
+
+c. Add a new column MRP_SKU_Flag in Table C
+
+Query - ALTER TABLE C ADD MRP_SKU_Flag VARCHAR(1);
+
+d. Populate MRP_SKU_Flag with following logic (if MRP_Part_Flag is ‘Y’ for all Part and Site Combination for a given SKU, then flag ‘Y’ else flag as ‘N’)
+
+Query - UPDATE C SET MRP_SKU_Flag = IF("Y" = ALL (SELECT MRP_Part_Flag FROM (SELECT * FROM C) AS S WHERE Part=C.Part AND Site=C.Site), "Y", "N");
